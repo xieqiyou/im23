@@ -12,8 +12,8 @@
 
 # Modify default IP
 #sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
-mv ./10_fix_wifi_mac target/linux/ramips/mt7621/base-files/etc/hotplug.d/ieee80211/10_fix_wifi_mac
-mv ./02_network target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-mv ./Makefile  package/kernel/linux/Makefile
-mv ./kernel-defaults.mk include/kernel-defaults.mk
-mv ./vermagic vermagic
+mv ../10_fix_wifi_mac target/linux/ramips/mt7621/base-files/etc/hotplug.d/ieee80211/10_fix_wifi_mac
+mv ../02_network target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+mv ../Makefile  package/kernel/linux/Makefile
+mv ../kernel-defaults.mk include/kernel-defaults.mk
+mv ../vermagic vermagic
