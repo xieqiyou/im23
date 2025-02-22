@@ -18,3 +18,4 @@ mv 02_network openwrt/target/linux/ramips/mt7621/base-files/etc/board.d/02_netwo
 mv Makefile  openwrt/package/kernel/linux/Makefile
 mv kernel-defaults.mk openwrt/include/kernel-defaults.mk
 mv vermagic openwrt/vermagic
+cd openwrt
