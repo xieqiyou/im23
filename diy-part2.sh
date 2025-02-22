@@ -16,3 +16,4 @@ mv ./10_fix_wifi_mac target/linux/ramips/mt7621/base-files/etc/hotplug.d/ieee802
 mv ./02_network target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 mv ./Makefile  package/kernel/linux/Makefile
 mv ./kernel-defaults.mk include/kernel-defaults.mk
+mv ./vermagic vermagic
