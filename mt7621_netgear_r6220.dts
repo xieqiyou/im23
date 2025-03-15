@@ -51,7 +51,7 @@
 			reg = <0x200000 0x400000>;
 		};
 
-		partition@600000 {
+		ubiconcat0:partition@600000 {
 			label = "ubiconcat0";
 			reg = <0x600000 0x1c00000>;
 		};
@@ -82,7 +82,7 @@
 			};
 		};
 
-		partition@4200000 {
+		ubiconcat1:partition@4200000 {
 			label = "ubiconcat1";
 			reg = <0x4200000 0x3c00000>;
 		};
