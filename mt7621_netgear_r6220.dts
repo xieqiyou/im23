@@ -20,7 +20,7 @@
 
 			partition@0 {
 				label = "ubi";
-				reg = <0x0 0x4c00000>;
+				reg = <0x0 0x5800000>;
 			};
 		};
 	};
