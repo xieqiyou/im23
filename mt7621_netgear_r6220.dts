@@ -1,17 +1,14 @@
-// SPDX-License-Identifier: GPL-2.0-only
+// SPDX-License-Identifier: GPL-2.0
+/dts-v1/;
 
 #include "mt7621_netgear_sercomm_ayx.dtsi"
 
 / {
 	compatible = "netgear,r6220", "mediatek,mt7621-soc";
 	model = "Netgear R6220";
-
-	aliases {
-		label-mac-device = &gmac0;
-	};
 	ubi-concat {
 		compatible = "mtd-concat";
-		devices = <&ubiconcat0 &ubiconcat1>;
+		devices = <&ubipart0 &ubipart1>;
 
 		partitions {
 			compatible = "fixed-partitions";
@@ -24,6 +21,26 @@
 			};
 		};
 	};
+};
+
+&led_power {
+	label = "r6220:green:power";
+};
+
+&led_usb {
+	label = "r6220:green:usb";
+};
+
+&led_internet {
+	label = "r6220:green:wan";
+};
+
+&led_wifi {
+	label = "r6220:green:wifi";
+};
+
+&led_wps {
+	label = "r6220:green:wps";
 };
 
 &nand {
@@ -51,50 +68,20 @@
 			reg = <0x200000 0x400000>;
 		};
 
-		ubiconcat0:partition@600000 {
-			label = "ubiconcat0";
+		ubipart0: partition@600000 {
+			label = "ubipart0";
 			reg = <0x600000 0x1c00000>;
 		};
 
-		partition@2e00000 {
+		factory: partition@2e00000 {
 			label = "factory";
 			reg = <0x2e00000 0x100000>;
 			read-only;
-
-			nvmem-layout {
-				compatible = "fixed-layout";
-				#address-cells = <1>;
-				#size-cells = <1>;
-
-				eeprom0: eeprom@0 {
-					reg = <0x0 0x400>;
-				};
-
-				macaddr_factory_4: macaddr@4 {
-					compatible = "mac-base";
-					reg = <0x4 0x6>;
-					#nvmem-cell-cells = <1>;
-				};
-
-				eeprom1: eeprom@8000 {
-					reg = <0x8000 0x200>;
-				};
-			};
 		};
 
-		ubiconcat1:partition@4200000 {
-			label = "ubiconcat1";
+		ubipart1: partition@4200000 {
+			label = "ubipart1";
 			reg = <0x4200000 0x3c00000>;
 		};
 	};
-};
-
-&gmac0 {
-	nvmem-cells = <&macaddr_factory_4 0>;
-	nvmem-cell-names = "mac-address";
-};
-
-&gmac1 {
-	nvmem-cells = <&macaddr_factory_4 1>;
-	nvmem-cell-names = "mac-address";
 };
