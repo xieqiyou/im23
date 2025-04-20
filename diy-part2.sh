@@ -15,7 +15,7 @@
 cd ..
 #mv 10_fix_wifi_mac openwrt/target/linux/ramips/mt7621/base-files/etc/hotplug.d/ieee80211/10_fix_wifi_mac
 #mv 02_network openwrt/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-mv Makefile  openwrt/package/kernel/linux/Makefile
+#mv Makefile  openwrt/package/kernel/linux/Makefile
 mv kernel-defaults.mk openwrt/include/kernel-defaults.mk
 mv vermagic openwrt/vermagic
 mv mt7621_netgear_r6220.dts openwrt/target/linux/ramips/dts/mt7621_netgear_r6220.dts
