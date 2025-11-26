@@ -19,8 +19,8 @@ on:
         default: 'false'
 
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-18.06
+  REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
+  REPO_BRANCH: k6.12-nss
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: config
   DIY_P1_SH: diy-part1.sh
