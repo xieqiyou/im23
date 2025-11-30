@@ -17,3 +17,10 @@
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 # git clone https://github.com/lwb1978/openwrt-gecoosac package/openwrt-gecoosac
+rm -rf package/emortal/luci-app-athena-led
+git clone --depth=1 https://github.com/NONGFAH/luci-app-athena-led package/luci-app-athena-led
+chmod +x package/luci-app-athena-led/root/etc/init.d/athena_led package/luci-app-athena-led/root/usr/sbin/athena-led
+git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git package/new/custom
+mv package/new/custom/luci-app-netspeedtest  package/new
+mv package/new/custom/speedtest-cli package/new
+rm -rf package/new/custom
