@@ -20,8 +20,8 @@ on:
 
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
-  REPO_BRANCH: 2d66e25
-  FEEDS_CONF: feeds.conf.default1
+  REPO_BRANCH: k6.12-nss
+  FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
@@ -60,6 +60,8 @@ jobs:
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH ${GITHUB_WORKSPACE}/openwrt
+        cd openwrt
+        git checkout 2d66e25581415178ee0644e1441bcab43e50a1f6
 
     - name: Load custom feeds
       run: |
