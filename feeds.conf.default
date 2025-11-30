@@ -1,4 +1,4 @@
-src-git nss_packages https://github.com/qosmio/nss-packages.git^326a597d7f62dd9e03c5eada73eb4e0241c541fb
+src-git nss_packages https://github.com/qosmio/nss-packages.git
 src-git sqm_scripts_nss https://github.com/qosmio/sqm-scripts-nss.git
 src-git packages https://github.com/immortalwrt/packages.git^b16ef2df7a1d2a47250af42ff9af92934a2f2386
 src-git luci https://github.com/immortalwrt/luci.git^3ed815fe4a313d33d20ada59cfb17129fbf217ef
