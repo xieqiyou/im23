@@ -15,6 +15,6 @@
 
 # Add a feed source
 echo 'src-git vnt https://github.com/lmq8267/luci-app-vnt' >>feeds.conf.default
-echo 'src-git lucky https://github.com/gdy666/luci-app-lucky' >>feeds.conf.default
+#echo 'src-git lucky https://github.com/gdy666/luci-app-lucky' >>feeds.conf.default
 #git clone https://github.com/lwb1978/openwrt-gecoosac package/openwrt-gecoosac
-#git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
+git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
