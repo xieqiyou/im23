@@ -71,7 +71,6 @@ jobs:
         chmod a+x $DIY_P1_SH $DIY_P2_SH
         ./$DIY_P1_SH
         ./scripts/feeds update -a
-        ./$DIY_P2_SH
         ./scripts/feeds update -i
         ./scripts/feeds install -a
 
@@ -87,6 +86,7 @@ jobs:
       id: compile
       run: |
         cd ${GITHUB_WORKSPACE}/openwrt
+        ./$DIY_P2_SH
         # 修改：显式指定双Profile编译（18.06必须加PROFILE参数）
         make PROFILE="${{ env.MULTI_PROFILE }}" -j$(nproc) || make PROFILE="${{ env.MULTI_PROFILE }}" -j1 || make PROFILE="${{ env.MULTI_PROFILE }}" -j1 V=s
         echo "status=success" >> "$GITHUB_OUTPUT"
