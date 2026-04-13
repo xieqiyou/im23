@@ -12,11 +12,10 @@
 
 # Modify default IP
 #sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
+sed -i '/grep .*mkhash md5 > .*\.vermagic/s/^/#/' include/kernel-defaults.mk
+sed -i '/^#.*grep .*mkhash md5 > .*\.vermagic/a\\tcp $(TOPDIR)/vermagic $(LINUX_DIR)/.vermagic' include/kernel-defaults.mk
+sed -i 's/^STAMP_BUILT:=.*_$(shell.*kconfig.pl.*)/# &/' package/kernel/linux/Makefile
+sed -i '/^# STAMP_BUILT:=.*_$(shell.*kconfig.pl.*)/a\STAMP_BUILT:=$(STAMP_BUILT)_$(shell cat $(LINUX_DIR)/.vermagic)' package/kernel/linux/Makefile
 cd ..
-#mv 10_fix_wifi_mac openwrt/target/linux/ramips/mt7621/base-files/etc/hotplug.d/ieee80211/10_fix_wifi_mac
-#mv 02_network openwrt/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-mv Makefile  openwrt/package/kernel/linux/Makefile
-mv kernel-defaults.mk openwrt/include/kernel-defaults.mk
-mv vermagic openwrt/vermagic
 mv mt7621_netgear_r6220.dts openwrt/target/linux/ramips/dts/mt7621_netgear_r6220.dts
 cd openwrt
