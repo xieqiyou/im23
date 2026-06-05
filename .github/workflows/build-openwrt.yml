@@ -170,28 +170,28 @@ jobs:
           const keepLatest = 12;
           const deleteTags = true;
           const { data: releases } = await github.rest.repos.listReleases({
-           owner: context.repo.owner,
-           repo: context.repo.repo,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
           });
           const sorted = releases.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
           const toDelete = sorted.slice(keepLatest);
           for (const release of toDelete) {
-           console.log(`Deleting release: ${release.tag_name}`);
-           await github.rest.repos.deleteRelease({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             release_id: release.id,
-           });
-           if (deleteTags) {
-             try {
-               await github.rest.git.deleteRef({
-                 owner: context.repo.owner,
-                 repo: context.repo.repo,
-                 ref: `tags/${release.tag_name}`,
-               });
-               console.log(`Deleted tag: ${release.tag_name}`);
-             } catch (err) {
-               console.log(`Failed to delete tag ${release.tag_name}: ${err.message}`);
-             }
-           }
-         }
+            console.log(`Deleting release: ${release.tag_name}`);
+            await github.rest.repos.deleteRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: release.id,
+            });
+            if (deleteTags) {
+              try {
+                await github.rest.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: `tags/${release.tag_name}`,
+                });
+                console.log(`Deleted tag: ${release.tag_name}`);
+              } catch (err) {
+                console.log(`Failed to delete tag ${release.tag_name}: ${err.message}`);
+              }
+            }
+          }
