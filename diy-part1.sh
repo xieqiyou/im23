@@ -16,5 +16,6 @@
 # Add a feed source
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
-git clone -b fix https://github.com/xieqiyou/luci-app-nvr package/openwrt-nvr
-git clone https://github.com/lwb1978/openwrt-gecoosac package/openwrt-gecoosac
+echo 'src-git luci_app_vnt https://github.com/lmq8267/luci-app-vnt.git' >> feeds.conf.default
+mkdir -p package/qosmate && git clone https://github.com/hudra0/qosmate.git package/qosmate
+mkdir -p package/luci-app-qosmate && git clone https://github.com/hudra0/luci-app-qosmate.git package/luci-app-qosmate
