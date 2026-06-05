@@ -194,4 +194,4 @@ jobs:
                console.log(`Failed to delete tag ${release.tag_name}: ${err.message}`);
              }
            }
-        }
+          }
