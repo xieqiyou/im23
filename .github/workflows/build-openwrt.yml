@@ -22,6 +22,7 @@ env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: v25.12.0
   FEEDS_CONF: feeds.conf.default
+  DEVICE_NAME: timecloud 
   CONFIG_FILE: config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
@@ -36,7 +37,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@v6
 
     - name: Initialization environment
       env:
@@ -53,11 +54,14 @@ jobs:
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH ${GITHUB_WORKSPACE}/openwrt
+
     - name: Cache dl
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
          path: openwrt/dl
-         key: dl-${{ hashFiles('feeds.conf.default', 'config') }}
+         key: dl-${{ env.DEVICE_NAME }}-${{ hashFiles('feeds.conf.default', env.CONFIG_FILE) }}
+         restore-keys: |
+           dl-${{ env.DEVICE_NAME }}-
 
     - name: Load custom feeds
       run: |
@@ -71,10 +75,10 @@ jobs:
         ./scripts/feeds install -a
 
     - name: Cache ccache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.ccache
-        key: ccache-${{ runner.os }}-${{ hashFiles('config') }}
+        key: ccache-${{ runner.os }}-${{ env.DEVICE_NAME }}-${{ hashFiles(env.CONFIG_FILE) }}
 
     - name: Download package
       id: package
@@ -100,7 +104,7 @@ jobs:
       run: df -hT
 
     - name: Zip bin directory
-      if: steps.compile.outputs.status == 'success' && !cancelled()
+      if: env.UPLOAD_BIN_DIR == 'true' && steps.compile.outputs.status == 'success' && !cancelled()
       run: |
         cd ${GITHUB_WORKSPACE}/openwrt/bin
         zip -r ${GITHUB_WORKSPACE}/openwrt/openwrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.zip *
@@ -111,12 +115,14 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}/openwrt/bin/targets/*/*
         rm -rf packages
-        mv ${GITHUB_WORKSPACE}/openwrt/openwrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.zip ./
+          if [ "$UPLOAD_BIN_DIR" = "true" ]; then
+            mv ${GITHUB_WORKSPACE}/openwrt/openwrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.zip ./
+          fi
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> "$GITHUB_OUTPUT"
 
     - name: Upload firmware directory
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v7
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: openwrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
@@ -142,7 +148,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
-      uses: ncipollo/release-action@main
+      uses: ncipollo/release-action@v1
       if: steps.info.outputs.status == 'success' && !cancelled()
       with:
         tag: ${{ steps.tag.outputs.release_tag }}
@@ -150,16 +156,42 @@ jobs:
         artifacts: ${{ env.FIRMWARE }}/*
 
     - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@main
+      uses: Mattraks/delete-workflow-runs@v2
       with:
         retain_days: 0
         keep_minimum_runs: 1
 
-    - name: Remove old Releases
-      uses: dev-drprasad/delete-older-releases@master
+    - name: Delete old releases
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      uses: actions/github-script@v9
       with:
-        keep_latest: 12
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const keepLatest = 12;
+          const deleteTags = true;
+          const { data: releases } = await github.rest.repos.listReleases({
+           owner: context.repo.owner,
+           repo: context.repo.repo,
+          });
+          const sorted = releases.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+          const toDelete = sorted.slice(keepLatest);
+          for (const release of toDelete) {
+           console.log(`Deleting release: ${release.tag_name}`);
+           await github.rest.repos.deleteRelease({
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             release_id: release.id,
+           });
+           if (deleteTags) {
+             try {
+               await github.rest.git.deleteRef({
+                 owner: context.repo.owner,
+                 repo: context.repo.repo,
+                 ref: `tags/${release.tag_name}`,
+               });
+               console.log(`Deleted tag: ${release.tag_name}`);
+             } catch (err) {
+               console.log(`Failed to delete tag ${release.tag_name}: ${err.message}`);
+             }
+           }
+         }
