@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# 自定义配置
+wlan_name="OpenWrt"
+wlan_password="1234512345"
+root_password="1234512345"
+lan_ip_address="192.168.6.1/24"   # 旧版 OpenWrt 请去掉 /24
+
+exec >/tmp/setup.log 2>&1
+
+# 1. 修复 vnt.lua 文件中的 util -> xml
+if [ -f /usr/lib/lua/luci/model/cbi/vnt.lua ]; then
+    sed -i 's/util/xml/g' /usr/lib/lua/luci/model/cbi/vnt.lua
+    echo "Fixed vnt.lua: replaced 'util' with 'xml'"
+else
+    echo "Warning: /usr/lib/lua/luci/model/cbi/vnt.lua not found, skip fix"
+fi
+
+# 2. 设置 root 密码
+if [ -n "$root_password" ]; then
+    (echo "$root_password"; sleep 1; echo "$root_password") | passwd > /dev/null
+fi
+
+# 3. 配置 LAN IP
+if [ -n "$lan_ip_address" ]; then
+    uci set network.lan.ipaddr="$lan_ip_address"
+    uci commit network
+fi
+
+# 4. 配置所有 Wi-Fi（2.4G 和 5G）
+if [ -n "$wlan_name" ] && [ -n "$wlan_password" ] && [ ${#wlan_password} -ge 8 ]; then
+    for device in $(uci show wireless | grep "=wifi-device" | cut -d'=' -f1); do
+        uci set "$device.disabled=0"
+    done
+    for iface in $(uci show wireless | grep "=wifi-iface" | cut -d'=' -f1); do
+        uci set "$iface.disabled=0"
+        uci set "$iface.encryption=psk2"
+        uci set "$iface.ssid=$wlan_name"
+        uci set "$iface.key=$wlan_password"
+    done
+    uci commit wireless
+fi
+
+echo "All done!"
+exit 0

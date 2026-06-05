@@ -19,10 +19,10 @@ on:
         default: 'false'
 
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt
+  REPO_URL: https://github.com/LiBwrt/openwrt-6.x
   REPO_BRANCH: v25.12.0
   FEEDS_CONF: feeds.conf.default
-  DEVICE_NAME: timecloud 
+  DEVICE_NAME: yasuo
   CONFIG_FILE: config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
