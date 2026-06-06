@@ -40,7 +40,9 @@ jobs:
       uses: easimon/maximize-build-space@master
       with:
         swap-size-mb: 1024
-        temp-reserve-mb: 100
+        build-volume-size: 36G
+        root-reserve-mb: 4096
+        temp-reserve-mb: 200
         
     - name: Checkout
       uses: actions/checkout@v6
