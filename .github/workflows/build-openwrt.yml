@@ -36,14 +36,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Combine Disks(合并磁盘)
-      uses: easimon/maximize-build-space@master
-      with:
-        swap-size-mb: 1024
-        build-volume-size: 36G
-        root-reserve-mb: 4096
-        temp-reserve-mb: 200
-        
     - name: Checkout
       uses: actions/checkout@v6
         
@@ -100,7 +92,7 @@ jobs:
         make download -j8 || make download -j1 V=s
     - name: Create swap
       run: |
-         sudo fallocate -l 4G /swapfile
+         sudo fallocate -l 1G /swapfile
          sudo chmod 600 /swapfile
          sudo mkswap /swapfile
          sudo swapon /swapfile
