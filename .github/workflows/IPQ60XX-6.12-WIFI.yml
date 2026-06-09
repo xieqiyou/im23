@@ -7,13 +7,13 @@ on:
 
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
-  REPO_BRANCH: v25.12.0
-  CONFIG_FILE: configs
-  FEEDS_CONF: feeds.conf.default
-  DIY_SCRIPT1: diy-part1.sh
-  DIY_SCRIPT2: diy-part2.sh
+  REPO_BRANCH: main-nss
+  CONFIG_FILE: configs/ipq60xx-6.12-wifi.config
+  FEEDS_CONF: feeds.conf.default1
+  DIY_SCRIPT1: libwrt.sh
+  DIY_SCRIPT2: feed.sh
   CLASH_KERNEL: amd64
-  CACHE_TOOLCHAIN: true
+  CACHE_TOOLCHAIN: false
   UPLOAD_BIN_DIR: true
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: IPQ60XX-6.12-WIFI
@@ -104,7 +104,7 @@ jobs:
         cd $OPENWRT_PATH
         $GITHUB_WORKSPACE/$DIY_SCRIPT2
         $GITHUB_WORKSPACE/$DIY_SCRIPT1
-        ./scripts/feeds update -a
+        ./scripts/feeds update -i
         ./scripts/feeds install -a
 
     - name: Download DL Package(下载DL软件包)
