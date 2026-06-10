@@ -19,4 +19,4 @@
 echo 'src-git luci_app_vnt https://github.com/lmq8267/luci-app-vnt.git' >>feeds.conf.default
 git clone https://github.com/kiss19776/openwrt-gecoosac package/openwrt-gecoosac
 git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
-echo "src-git sqm_scripts_nss https://github.com/JuliusBairaktaris/sqm-scripts-nss.git" >>feeds.conf.default
+sed -i '2s|https://github.com/qosmio/sqm-scripts-nss.git|https://github.com/JuliusBairaktaris/sqm-scripts-nss.git|' feeds.conf.default
