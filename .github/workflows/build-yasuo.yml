@@ -5,7 +5,7 @@ on:
 
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
-  REPO_BRANCH: v25.12.0
+  REPO_BRANCH: main-nss
   CONFIG_FILE: config
   FEEDS_CONF: feeds.conf.default
   DIY_SCRIPT1: diy-part1.sh
