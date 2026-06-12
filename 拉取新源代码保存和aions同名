@@ -1,0 +1,8 @@
+bash
+# 初始克隆（深度1）
+git clone --depth 1 -b main-nss <repo> openwrt
+
+# 后续需要更新时（例如拉取远程最新代码）
+cd openwrt
+git fetch --depth 1 origin main-nss
+git reset --hard origin/main-nss
