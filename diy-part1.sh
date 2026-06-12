@@ -16,9 +16,9 @@
 # Add a feed source
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
-echo 'src-git luci_app_vnt https://github.com/lmq8267/luci-app-vnt' >>feeds.conf.default
-echo 'src-git AC https://github.com/kiss19776/openwrt-gecoosac' >>feeds.conf.default
-echo 'src-git Lucky https://github.com/gdy666/luci-app-lucky' >>feeds.conf.default
+echo 'src-git luci_app_vnt https://github.com/lmq8267/luci-app-vnt.git' >>feeds.conf.default
+echo 'src-git AC https://github.com/kiss19776/openwrt-gecoosac.git' >>feeds.conf.default
+echo 'src-git Lucky https://github.com/gdy666/luci-app-lucky.git' >>feeds.conf.default
 sed -i '2s|https://github.com/qosmio/sqm-scripts-nss.git|https://github.com/JuliusBairaktaris/sqm-scripts-nss.git|' feeds.conf.default
 sed -i 's|src-git packages https://github.com/immortalwrt/packages.git|src-git packages https://github.com/immortalwrt/packages.git^d91fbd7451ffb1a9ec103df956844baddc18591c|' feeds.conf.default
 sed -i 's|src-git luci https://github.com/immortalwrt/luci.git|src-git luci https://github.com/immortalwrt/luci.git^874556da6b3b9c5ab1f2c7d3231a1c8de7fb8b56|' feeds.conf.default
